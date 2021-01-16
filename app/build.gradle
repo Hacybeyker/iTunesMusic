@@ -24,12 +24,15 @@ android {
             shrinkResources true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', "BASE_URL", BASE_URL_PROD
+
         }
         debug {
             debuggable true
             shrinkResources true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', "BASE_URL", BASE_URL_DESA
         }
     }
     buildFeatures {
@@ -75,4 +78,8 @@ dependencies {
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    //Koin
+    implementation 'org.koin:koin-core:2.1.6'
+    implementation 'org.koin:koin-androidx-viewmodel:2.1.6'
+    implementation 'org.koin:koin-androidx-scope:2.1.6'
 }
