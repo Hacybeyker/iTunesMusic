@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="onItemSelected"
+            type="com.hacybeyker.itunesmusic.ui.main.MusicAdapter.OnItemSelectedListener" />
+
+        <variable
+            name="music"
+            type="com.hacybeyker.entities.Music" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="@{() -> onItemSelected.onItemSelected(music)}"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="5dp"
+        app:cardUseCompatPadding="false"
+        tools:context=".ui.main.MusicAdapter">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/itemMusicImageArt"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcImage="@{music.artworkUrl100}"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/itemMusicTextTrackName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="12dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="@{music.trackName}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/itemMusicImageArt"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@tools:sample/first_names" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/itemMusicTextArtistName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="12dp"
+                android:fontFamily="@font/montserrat"
+                android:text="@{music.artistName}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/itemMusicImageArt"
+                app:layout_constraintTop_toBottomOf="@id/itemMusicTextTrackName"
+                tools:text="@tools:sample/first_names" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>
