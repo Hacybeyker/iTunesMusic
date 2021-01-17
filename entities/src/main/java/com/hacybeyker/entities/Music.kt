@@ -11,7 +11,8 @@ data class Music(
     val previewUrl: String,
     val releaseDate: Date,
     val primaryGenreName: String,
-    val trackTimeMillis: Int
+    val trackTimeMillis: Int,
+    val collectionId: Int
 ) : Serializable {
     fun genreWithDate(): String {
         val calendar = Calendar.getInstance(Locale.ENGLISH)

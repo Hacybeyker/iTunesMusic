@@ -3,7 +3,6 @@ package com.hacybeyker.repository.network.model.response
 import com.google.gson.annotations.SerializedName
 import com.hacybeyker.entities.Music
 import com.hacybeyker.repository.util.toDate
-import java.text.SimpleDateFormat
 import java.util.*
 
 data class MusicResponse(
@@ -14,7 +13,9 @@ data class MusicResponse(
     @SerializedName("previewUrl") val previewUrl: String? = "",
     @SerializedName("releaseDate") val releaseDate: String? = "",
     @SerializedName("primaryGenreName") val primaryGenreName: String? = "",
-    @SerializedName("trackTimeMillis") val trackTimeMillis: Int? = 0
+    @SerializedName("trackTimeMillis") val trackTimeMillis: Int? = 0,
+    @SerializedName("collectionId") val collectionId: Int? = 0,
+    @SerializedName("wrapperType") val wrapperType: String? = ""
 ) {
     fun toMusic(): Music {
         return Music(
@@ -25,15 +26,18 @@ data class MusicResponse(
             previewUrl = previewUrl ?: "",
             releaseDate = releaseDate?.toDate() ?: Calendar.getInstance().time,
             primaryGenreName = primaryGenreName ?: "",
-            trackTimeMillis = trackTimeMillis ?: 0
+            trackTimeMillis = trackTimeMillis ?: 0,
+            collectionId = collectionId ?: 0
         )
     }
 
     companion object {
         fun toMusicList(musics: List<MusicResponse>): List<Music> {
             val response = arrayListOf<Music>()
-            for (item in musics)
-                response.add(item.toMusic())
+            for (item in musics) {
+                if (item.wrapperType == "track")
+                    response.add(item.toMusic())
+            }
             return response
         }
     }

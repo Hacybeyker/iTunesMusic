@@ -17,9 +17,9 @@ class MusicViewModel : ViewModel(), KoinComponent {
     private val musicUseCase: MusicUseCase by inject()
     val musicSuccess = MutableLiveData<List<Music>>()
 
-    val fetchMusic = viewModelScope.launch(Dispatchers.IO) {
+    fun fetchMusic(term: String, limit: Int, page: Int) = viewModelScope.launch(Dispatchers.IO) {
         try {
-            val musics = musicUseCase.fetchMusic()
+            val musics = musicUseCase.fetchMusic(term = term, limit = limit, page = page)
             musicSuccess.postValue(musics)
         } catch (ex: Exception) {
             when (ex) {

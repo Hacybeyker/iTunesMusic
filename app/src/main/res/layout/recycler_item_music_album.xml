@@ -3,29 +3,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-
     <data>
 
         <variable
             name="position"
-            type="Integer" />
+            type="java.lang.Integer" />
 
         <variable
             name="music"
             type="com.hacybeyker.entities.Music" />
+
+        <variable
+            name="onItemSelected"
+            type="com.hacybeyker.itunesmusic.ui.detail.MusicDetailAdapter.OnItemSelectedListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
+        android:onClick="@{() -> onItemSelected.onItemSelected(music)}"
         tools:context=".ui.main.MusicAdapter">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/itemMusicTextPosition"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{position}"
+            android:text="@{position.toString()}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="1" />
@@ -51,9 +55,9 @@
         <View
             android:layout_width="wrap_content"
             android:layout_height="1dp"
+            android:layout_marginStart="5dp"
             android:layout_marginTop="2dp"
             android:background="@android:color/darker_gray"
-            android:layout_marginStart="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/itemMusicTextTrackName"
             app:layout_constraintTop_toBottomOf="@id/itemMusicTextTrackName" />

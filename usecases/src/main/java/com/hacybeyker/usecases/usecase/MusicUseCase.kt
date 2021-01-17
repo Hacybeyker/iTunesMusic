@@ -8,7 +8,11 @@ import org.koin.core.inject
 class MusicUseCase : KoinComponent {
     private val iMusicRepositoryNetwork: IMusicRepositoryNetwork by inject()
 
-    suspend fun fetchMusic(): List<Music> {
-        return iMusicRepositoryNetwork.fetchMusic()
+    suspend fun fetchMusic(term: String, limit: Int, page: Int): List<Music> {
+        return iMusicRepositoryNetwork.fetchMusic(term = term, limit = limit, page = page)
+    }
+
+    suspend fun fetchMusicByAlbum(album: Int): List<Music> {
+        return iMusicRepositoryNetwork.fetchMusicByAlbum(album)
     }
 }
