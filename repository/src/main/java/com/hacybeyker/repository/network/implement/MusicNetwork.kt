@@ -7,7 +7,6 @@ import com.hacybeyker.repository.network.services.MusicServices
 import com.hacybeyker.usecases.repository.network.IMusicRepositoryNetwork
 import org.koin.core.KoinComponent
 import org.koin.core.inject
-import java.lang.Exception
 
 class MusicNetwork : IMusicRepositoryNetwork, KoinComponent {
 
