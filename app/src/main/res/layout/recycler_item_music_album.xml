@@ -36,15 +36,20 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/itemMusicTextTrackName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="@{music.trackName}"
+            app:layout_constraintEnd_toStartOf="@id/itemMusicTextDuration"
             app:layout_constraintStart_toEndOf="@id/itemMusicTextPosition"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@tools:sample/first_names" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/itemMusicTextDuration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{music.minutesWithSeconds()}"

@@ -6,6 +6,7 @@ import com.hacybeyker.repository.util.toDate
 import java.util.*
 
 data class MusicResponse(
+    @SerializedName("trackId") val trackId: Int? = 0,
     @SerializedName("artworkUrl100") val artworkUrl100: String? = "",
     @SerializedName("collectionName") val collectionName: String? = "",
     @SerializedName("artistName") val artistName: String? = "",
@@ -19,6 +20,7 @@ data class MusicResponse(
 ) {
     fun toMusic(): Music {
         return Music(
+            trackId = trackId ?: 0,
             artworkUrl100 = artworkUrl100 ?: "",
             collectionName = collectionName ?: "",
             artistName = artistName ?: "",

@@ -2,6 +2,8 @@ package com.hacybeyker.itunesmusic
 
 import android.app.Application
 import com.hacybeyker.itunesmusic.di.viewModelModule
+import com.hacybeyker.repository.local.database.di.dataBaseModule
+/*import com.hacybeyker.repository.local.database.di.dataBaseModule*/
 import com.hacybeyker.repository.network.di.BASE_URL
 import com.hacybeyker.repository.network.di.networkModule
 import com.hacybeyker.repository.network.di.retrofitModule
@@ -18,12 +20,15 @@ class ApplicationBase : Application() {
         startKoin {
             androidLogger(Level.ERROR)
             androidContext(this@ApplicationBase)
-            koin.loadModules(arrayListOf(
-                retrofitModule,
-                networkModule,
-                useCaseModule,
-                viewModelModule
-            ))
+            koin.loadModules(
+                arrayListOf(
+                    retrofitModule,
+                    networkModule,
+                    useCaseModule,
+                    viewModelModule,
+                    dataBaseModule
+                )
+            )
             koin.createRootScope()
         }
         getKoin().run {

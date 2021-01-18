@@ -4,6 +4,7 @@ import java.io.Serializable
 import java.util.*
 
 data class Music(
+    val trackId: Int,
     val artworkUrl100: String,
     val collectionName: String,
     val artistName: String,
