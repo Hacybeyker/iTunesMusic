@@ -10,11 +10,14 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.hacybeyker.entities.Music
 import com.hacybeyker.itunesmusic.R
 import com.hacybeyker.itunesmusic.databinding.ActivityMainBinding
 import com.hacybeyker.itunesmusic.ui.detail.DetailMusicActivity
+import com.hacybeyker.itunesmusic.ui.main.adapter.MusicAdapter
 import com.hacybeyker.itunesmusic.utils.hideKeyboard
+import jp.wasabeef.recyclerview.animators.LandingAnimator
 import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity(), MusicAdapter.OnItemSelectedListener,
@@ -38,6 +41,10 @@ class MainActivity : AppCompatActivity(), MusicAdapter.OnItemSelectedListener,
 
         binding.mainAutoCompleteSearch.onItemClickListener = this
         binding.mainAutoCompleteSearch.setOnEditorActionListener(this)
+        binding.mainRecyclerMusics.layoutManager = LinearLayoutManager(this)
+        binding.mainRecyclerMusics.itemAnimator = LandingAnimator().apply {
+            addDuration = 400
+        }
 
         viewModel.fetchMusic(term = "mana", limit = 20, page = 1)
         viewModel.musicSuccess.observe(this) {
@@ -54,8 +61,8 @@ class MainActivity : AppCompatActivity(), MusicAdapter.OnItemSelectedListener,
         }
     }
 
-    override fun onItemSelected(item: Music) {
-        DetailMusicActivity.newInstance(this, item)
+    override fun onItemSelected(item: Music, view: View?) {
+        DetailMusicActivity.newInstance(this, item, view)
     }
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {

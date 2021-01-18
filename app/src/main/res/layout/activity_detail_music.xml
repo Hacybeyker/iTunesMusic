@@ -11,7 +11,7 @@
 
         <variable
             name="adapter"
-            type="com.hacybeyker.itunesmusic.ui.detail.MusicDetailAdapter" />
+            type="com.hacybeyker.itunesmusic.ui.detail.adapter.MusicDetailAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

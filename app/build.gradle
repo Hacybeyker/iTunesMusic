@@ -94,6 +94,8 @@ dependencies {
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
+    //Recycler View Animations
+    implementation 'jp.wasabeef:recyclerview-animators:3.0.0'
     //Library
     implementation project(path: ':entities')
     implementation project(path: ':repository')

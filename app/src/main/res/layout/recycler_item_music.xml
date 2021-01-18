@@ -7,11 +7,15 @@
 
         <variable
             name="onItemSelected"
-            type="com.hacybeyker.itunesmusic.ui.main.MusicAdapter.OnItemSelectedListener" />
+            type="com.hacybeyker.itunesmusic.ui.main.adapter.MusicAdapter.OnItemSelectedListener" />
 
         <variable
             name="music"
             type="com.hacybeyker.entities.Music" />
+
+        <variable
+            name="imageViewTransition"
+            type="android.view.View" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -20,11 +24,11 @@
         android:layout_margin="5dp"
         android:clickable="true"
         android:focusable="true"
-        android:onClick="@{() -> onItemSelected.onItemSelected(music)}"
+        android:onClick="@{() -> onItemSelected.onItemSelected(music, imageViewTransition)}"
         app:cardCornerRadius="5dp"
         app:cardElevation="5dp"
         app:cardUseCompatPadding="false"
-        tools:context=".ui.main.MusicAdapter">
+        tools:context=".ui.main.adapter.MusicAdapter">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

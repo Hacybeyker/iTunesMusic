@@ -1,18 +1,24 @@
-package com.hacybeyker.itunesmusic.ui.main;
+package com.hacybeyker.itunesmusic.ui.main.adapter;
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.hacybeyker.entities.Music
+import com.hacybeyker.itunesmusic.R
 import com.hacybeyker.itunesmusic.databinding.RecyclerItemMusicBinding
 
 class MusicAdapter(private val onItemSelectedListener: OnItemSelectedListener) :
     RecyclerView.Adapter<MusicAdapter.MusicViewHolder>() {
 
-    var items: List<Music> = arrayListOf()
+    var items = emptyList<Music>()
         set(value) {
+            val musicDiffUtil = MusicDiffUtil(this.items, value)
+            val musicDiffResult = DiffUtil.calculateDiff(musicDiffUtil)
             field = value
-            notifyDataSetChanged()
+            musicDiffResult.dispatchUpdatesTo(this)
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MusicViewHolder {
@@ -43,13 +49,15 @@ class MusicAdapter(private val onItemSelectedListener: OnItemSelectedListener) :
         }
 
         fun bind(item: Music) {
-            binding.music= item
+            binding.music = item
             binding.onItemSelected = onItemSelectedListener
+            binding.imageViewTransition =
+                itemView.findViewById<AppCompatImageView>(R.id.itemMusicImageArt)
             binding.executePendingBindings()
         }
     }
 
     interface OnItemSelectedListener {
-        fun onItemSelected(item: Music)
+        fun onItemSelected(item: Music, view: View?)
     }
 }

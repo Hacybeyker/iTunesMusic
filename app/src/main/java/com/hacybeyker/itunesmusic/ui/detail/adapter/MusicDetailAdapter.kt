@@ -1,18 +1,22 @@
-package com.hacybeyker.itunesmusic.ui.detail;
+package com.hacybeyker.itunesmusic.ui.detail.adapter;
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.hacybeyker.entities.Music
 import com.hacybeyker.itunesmusic.databinding.RecyclerItemMusicAlbumBinding
+import com.hacybeyker.itunesmusic.ui.main.adapter.MusicDiffUtil
 
 class MusicDetailAdapter(private val onItemSelectedListener: OnItemSelectedListener) :
     RecyclerView.Adapter<MusicDetailAdapter.MusicDetailViewHolder>() {
 
-    var items: List<Music> = arrayListOf()
+    var items = emptyList<Music>()
         set(value) {
+            val musicDiffUtil = MusicDiffUtil(this.items, value)
+            val musicDiffResult = DiffUtil.calculateDiff(musicDiffUtil)
             field = value
-            notifyDataSetChanged()
+            musicDiffResult.dispatchUpdatesTo(this)
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MusicDetailViewHolder {

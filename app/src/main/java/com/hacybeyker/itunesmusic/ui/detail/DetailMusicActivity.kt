@@ -1,18 +1,24 @@
 package com.hacybeyker.itunesmusic.ui.detail
 
 import android.app.Activity
+import android.app.ActivityOptions
 import android.content.Intent
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
+import android.util.Pair
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import com.hacybeyker.entities.Music
 import com.hacybeyker.itunesmusic.R
 import com.hacybeyker.itunesmusic.databinding.ActivityDetailMusicBinding
+import com.hacybeyker.itunesmusic.ui.detail.adapter.MusicDetailAdapter
+import jp.wasabeef.recyclerview.animators.LandingAnimator
 
 class DetailMusicActivity : AppCompatActivity(), MusicDetailAdapter.OnItemSelectedListener {
 
@@ -25,10 +31,22 @@ class DetailMusicActivity : AppCompatActivity(), MusicDetailAdapter.OnItemSelect
     private lateinit var mediaPlayer: MediaPlayer
 
     companion object {
-        fun newInstance(activity: Activity, music: Music) {
+        fun newInstance(
+            activity: Activity,
+            music: Music,
+            imageView: View?
+        ) {
             val intent = Intent(activity, DetailMusicActivity::class.java)
             intent.putExtra(Music::class.java.name, music)
-            activity.startActivity(intent)
+            if (imageView != null) {
+                ViewCompat.setTransitionName(imageView, music.trackId.toString())
+                val p1 =
+                    Pair.create<View, String>(imageView, ViewCompat.getTransitionName(imageView))
+                val options = ActivityOptions.makeSceneTransitionAnimation(activity, p1)
+                activity.startActivity(intent, options.toBundle())
+            } else {
+                activity.startActivity(intent)
+            }
         }
     }
 
@@ -40,13 +58,18 @@ class DetailMusicActivity : AppCompatActivity(), MusicDetailAdapter.OnItemSelect
         binding.adapter = adapter
         binding.executePendingBindings()
 
+        binding.detailMusicImageArt.transitionName = music.trackId.toString()
+        binding.detailRecyclerMusic.itemAnimator = LandingAnimator().apply {
+            addDuration = 400
+        }
+
         viewModel.fetchFetchMusicByAlbum(music.collectionId).observe(this) {
             adapter.items = it
         }
     }
 
     private fun getIntentData() {
-        intent?.let {
+        intent?.let { it ->
             it.getSerializableExtra(Music::class.java.name)?.let { music = it as Music }
         }
     }
