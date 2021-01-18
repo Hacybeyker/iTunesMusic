@@ -1,5 +1,10 @@
 package com.hacybeyker.repository.network.implement
 
+import androidx.lifecycle.LiveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.liveData
 import com.hacybeyker.entities.Music
 import com.hacybeyker.repository.network.exception.GenericException
 import com.hacybeyker.repository.network.model.response.MusicResponse
@@ -40,5 +45,15 @@ class MusicNetwork : IMusicRepositoryNetwork, KoinComponent {
         } catch (e: Exception) {
             throw GenericException()
         }
+    }
+
+    override fun fetchMusicPaging(term: String): LiveData<PagingData<Music>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                maxSize = 200,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { MusicPagingSource(term = term) }).liveData
     }
 }

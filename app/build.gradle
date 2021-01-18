@@ -96,6 +96,8 @@ dependencies {
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
     //Recycler View Animations
     implementation 'jp.wasabeef:recyclerview-animators:3.0.0'
+    //Paging3
+    implementation "androidx.paging:paging-runtime-ktx:3.0.0-alpha12"
     //Library
     implementation project(path: ':entities')
     implementation project(path: ':repository')

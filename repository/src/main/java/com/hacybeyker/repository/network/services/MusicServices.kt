@@ -12,7 +12,8 @@ interface MusicServices {
         @Query("term") term: String,
         @Query("mediaType") mediaType: String = "music",
         @Query("limit") limit: Int,
-        @Query("page") page: Int
+        @Query("page") page: Int,
+        @Query("entity") song: String = "song"
     ): Response<BaseResponse<List<MusicResponse>>>
 
     @GET("lookup")

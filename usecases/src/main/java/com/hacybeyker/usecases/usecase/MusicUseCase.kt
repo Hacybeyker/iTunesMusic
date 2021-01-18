@@ -1,5 +1,7 @@
 package com.hacybeyker.usecases.usecase
 
+import androidx.lifecycle.LiveData
+import androidx.paging.PagingData
 import com.hacybeyker.entities.Music
 import com.hacybeyker.usecases.repository.local.IMusicRepositoryDataBase
 import com.hacybeyker.usecases.repository.network.IMusicRepositoryNetwork
@@ -18,5 +20,9 @@ class MusicUseCase : KoinComponent {
 
     suspend fun fetchMusicByAlbum(album: Int): List<Music> {
         return iMusicRepositoryNetwork.fetchMusicByAlbum(album)
+    }
+
+    fun fetchMusicPaging(term: String): LiveData<PagingData<Music>> {
+        return iMusicRepositoryNetwork.fetchMusicPaging(term = term)
     }
 }

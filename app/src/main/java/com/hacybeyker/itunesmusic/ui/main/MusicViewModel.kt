@@ -3,7 +3,9 @@ package com.hacybeyker.itunesmusic.ui.main
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import com.hacybeyker.entities.Music
 import com.hacybeyker.repository.network.exception.GenericException
 import com.hacybeyker.usecases.usecase.MusicUseCase
@@ -32,4 +34,7 @@ class MusicViewModel : ViewModel(), KoinComponent {
             }
         }
     }
+
+    fun fetchMusicPaging(term: String) = musicUseCase.fetchMusicPaging(term = term).cachedIn(viewModelScope)
+
 }

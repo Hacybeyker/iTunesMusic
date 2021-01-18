@@ -46,10 +46,9 @@ class MainActivity : AppCompatActivity(), MusicAdapter.OnItemSelectedListener,
             addDuration = 400
         }
 
-        viewModel.fetchMusic(term = "mana", limit = 20, page = 1)
-        viewModel.musicSuccess.observe(this) {
-            it?.let {
-                adapter.items = it
+        viewModel.fetchMusicPaging(term = "mana").observe(this) {
+            it.let {
+                adapter.submitData(lifecycle, it)
             }
         }
 

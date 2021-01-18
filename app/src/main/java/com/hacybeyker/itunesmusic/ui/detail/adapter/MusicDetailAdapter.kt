@@ -6,15 +6,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.hacybeyker.entities.Music
 import com.hacybeyker.itunesmusic.databinding.RecyclerItemMusicAlbumBinding
-import com.hacybeyker.itunesmusic.ui.main.adapter.MusicDiffUtil
 
 class MusicDetailAdapter(private val onItemSelectedListener: OnItemSelectedListener) :
     RecyclerView.Adapter<MusicDetailAdapter.MusicDetailViewHolder>() {
 
     var items = emptyList<Music>()
         set(value) {
-            val musicDiffUtil = MusicDiffUtil(this.items, value)
-            val musicDiffResult = DiffUtil.calculateDiff(musicDiffUtil)
+            val musicDetailDiffUtil = MusicDetailDiffUtil(this.items, value)
+            val musicDiffResult = DiffUtil.calculateDiff(musicDetailDiffUtil)
             field = value
             musicDiffResult.dispatchUpdatesTo(this)
         }
