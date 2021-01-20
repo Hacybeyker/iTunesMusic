@@ -1,6 +1,5 @@
-package com.hacybeyker.itunesmusic.ui.detail
+package com.hacybeyker.itunesmusic.ui.detail.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,13 +14,15 @@ class MusicDetailViewModel : ViewModel(), KoinComponent {
 
     private val musicUseCase: MusicUseCase by inject()
 
+    private val errorMutableLiveData = MutableLiveData<Throwable>()
+    val errorLiveData: LiveData<Throwable> get() = errorMutableLiveData
+
     fun fetchFetchMusicByAlbum(album: Int): LiveData<List<Music>> =
         liveData(Dispatchers.IO) {
             try {
-                val response = musicUseCase.fetchMusicByAlbum(album)
-                emit(response)
+                emit(musicUseCase.fetchMusicByAlbum(album))
             } catch (e: Exception) {
-                Log.d("TAG", "Here - fetchFetchMusicByAlbum: ${e.message}")
+                errorMutableLiveData.postValue(e)
             }
         }
 }

@@ -2,6 +2,7 @@ package com.hacybeyker.repository.network.implement
 
 import androidx.paging.PagingSource
 import com.hacybeyker.entities.Music
+import com.hacybeyker.repository.network.exception.GenericException
 import com.hacybeyker.repository.network.model.response.MusicResponse
 import com.hacybeyker.repository.network.services.MusicServices
 import org.koin.core.KoinComponent
@@ -21,17 +22,23 @@ class MusicPagingSource(private val term: String) : PagingSource<Int, Music>(), 
         return try {
             val response =
                 musicServices.fetchMusic(term = term, limit = MUSIC_LIMIT_DEFAULT, page = position)
-            val musics = MusicResponse.toMusicList(response.body()?.results ?: arrayListOf())
-            LoadResult.Page(
-                data = musics,
-                prevKey = if (position == MUSIC_STARTING_PAGE_INDEX) null else position - 1,
-                nextKey = if (musics.isEmpty()) null else position + 1
-            )
+
+            var loadResult: LoadResult<Int, Music>? = null
+            if (response.isSuccessful) {
+                val musics = MusicResponse.toMusicList(response.body()?.results ?: arrayListOf())
+                loadResult = LoadResult.Page(
+                    data = musics,
+                    prevKey = if (position == MUSIC_STARTING_PAGE_INDEX) null else position - 1,
+                    nextKey = if (musics.isEmpty()) null else position + 1
+                )
+            }
+            loadResult ?: throw GenericException()
         } catch (ex: IOException) {
             LoadResult.Error(ex)
         } catch (ex: HttpException) {
             LoadResult.Error(ex)
+        } catch (ex: Exception) {
+            throw GenericException()
         }
     }
-
 }

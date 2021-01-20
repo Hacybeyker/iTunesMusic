@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "7832c47c49650e78bc744c1cb23e6cae",
+    "identityHash": "14e2c6c6c0d6716fb8d97b2e5684c9b4",
     "entities": [
       {
-        "tableName": "Music",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`trackId` INTEGER NOT NULL, `artworkUrl100` TEXT NOT NULL, `collectionName` TEXT NOT NULL, `artistName` TEXT NOT NULL, `trackName` TEXT NOT NULL, `previewUrl` TEXT NOT NULL, `releaseDate` TEXT NOT NULL, `primaryGenreName` TEXT NOT NULL, `trackTimeMillis` INTEGER NOT NULL, `collectionId` INTEGER NOT NULL, PRIMARY KEY(`trackId`))",
+        "tableName": "music",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`trackId` INTEGER NOT NULL, `artworkUrl100` TEXT NOT NULL, `collectionName` TEXT NOT NULL, `artistName` TEXT NOT NULL, `trackName` TEXT NOT NULL, `previewUrl` TEXT NOT NULL, `releaseDate` INTEGER NOT NULL, `primaryGenreName` TEXT NOT NULL, `trackTimeMillis` INTEGER NOT NULL, `collectionId` INTEGER NOT NULL, `term` TEXT NOT NULL, PRIMARY KEY(`trackId`))",
         "fields": [
           {
             "fieldPath": "trackId",
@@ -47,7 +47,7 @@
           {
             "fieldPath": "releaseDate",
             "columnName": "releaseDate",
-            "affinity": "TEXT",
+            "affinity": "INTEGER",
             "notNull": true
           },
           {
@@ -67,6 +67,12 @@
             "columnName": "collectionId",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "term",
+            "columnName": "term",
+            "affinity": "TEXT",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -77,12 +83,32 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "suggestion",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`term` TEXT NOT NULL, PRIMARY KEY(`term`))",
+        "fields": [
+          {
+            "fieldPath": "term",
+            "columnName": "term",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "term"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7832c47c49650e78bc744c1cb23e6cae')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '14e2c6c6c0d6716fb8d97b2e5684c9b4')"
     ]
   }
 }

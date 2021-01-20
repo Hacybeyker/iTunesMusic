@@ -5,22 +5,33 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.hacybeyker.entities.Music
 import com.hacybeyker.itunesmusic.R
 import com.hacybeyker.itunesmusic.databinding.RecyclerItemMusicBinding
 
 class MusicAdapter(private val onItemSelectedListener: OnItemSelectedListener) :
-    PagingDataAdapter<Music, MusicAdapter.MusicViewHolder>(MusicDiffUtil()) {
+    RecyclerView.Adapter<MusicAdapter.MusicViewHolder>() {
+
+    var items = emptyList<Music>()
+        set(value) {
+            val musicDiffUtil = MusicDiffUtil(this.items, value)
+            val musicDiffResult = DiffUtil.calculateDiff(musicDiffUtil)
+            field = value
+            musicDiffResult.dispatchUpdatesTo(this)
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MusicViewHolder {
         return MusicViewHolder.from(parent, onItemSelectedListener)
     }
 
+    override fun getItemCount(): Int {
+        return items.size
+    }
+
     override fun onBindViewHolder(holder: MusicViewHolder, position: Int) {
-        getItem(position)?.let {
-            holder.bind(it)
-        }
+        holder.bind(items[position])
     }
 
     class MusicViewHolder(

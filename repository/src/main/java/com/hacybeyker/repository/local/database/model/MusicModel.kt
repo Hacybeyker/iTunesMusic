@@ -17,7 +17,8 @@ data class MusicModel(
     val releaseDate: Date,
     val primaryGenreName: String,
     val trackTimeMillis: Int,
-    val collectionId: Int
+    val collectionId: Int,
+    val term: String
 ) {
     fun toMusic(): Music {
         return Music(

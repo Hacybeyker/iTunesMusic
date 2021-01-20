@@ -31,11 +31,11 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8
     }
-   /* kapt {
+    kapt {
         arguments {
             arg("room.schemaLocation", "$projectDir/schemas")
         }
-    }*/
+    }
 }
 
 dependencies {

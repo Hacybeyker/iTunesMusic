@@ -1,4 +1,4 @@
-package com.hacybeyker.itunesmusic.ui.main
+package com.hacybeyker.itunesmusic.ui.main.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,8 +13,11 @@ import org.koin.core.inject
 class SuggestionViewModel : ViewModel(), KoinComponent {
 
     private val suggestionUseCase: SuggestionUseCase by inject()
+
     private val suggestionMutableLiveData: MutableLiveData<List<String>> by lazy { MutableLiveData<List<String>>() }
     val suggestionLiveData: LiveData<List<String>> get() = suggestionMutableLiveData
+    private val errorMutableLiveData = MutableLiveData<Throwable>()
+    val errorLiveData: LiveData<Throwable> get() = errorMutableLiveData
 
     fun fetchSuggestion() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -22,7 +25,7 @@ class SuggestionViewModel : ViewModel(), KoinComponent {
                 val response = suggestionUseCase.fetchSuggestion()
                 suggestionMutableLiveData.postValue(response)
             } catch (e: Exception) {
-                e.printStackTrace()
+                errorMutableLiveData.postValue(e)
             }
         }
     }
@@ -37,6 +40,4 @@ class SuggestionViewModel : ViewModel(), KoinComponent {
             }
         }
     }
-
-
 }

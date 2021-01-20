@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Pair
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
@@ -18,6 +19,10 @@ import com.hacybeyker.entities.Music
 import com.hacybeyker.itunesmusic.R
 import com.hacybeyker.itunesmusic.databinding.ActivityDetailMusicBinding
 import com.hacybeyker.itunesmusic.ui.detail.adapter.MusicDetailAdapter
+import com.hacybeyker.itunesmusic.ui.detail.viewmodel.MusicDetailViewModel
+import com.hacybeyker.repository.network.exception.EmptyError
+import com.hacybeyker.repository.network.exception.GenericException
+import com.hacybeyker.repository.network.exception.NetworkException
 import jp.wasabeef.recyclerview.animators.LandingAnimator
 
 class DetailMusicActivity : AppCompatActivity(), MusicDetailAdapter.OnItemSelectedListener {
@@ -59,12 +64,32 @@ class DetailMusicActivity : AppCompatActivity(), MusicDetailAdapter.OnItemSelect
         binding.executePendingBindings()
 
         binding.detailMusicImageArt.transitionName = music.trackId.toString()
-        binding.detailRecyclerMusic.itemAnimator = LandingAnimator().apply {
-            addDuration = 400
-        }
+        binding.detailRecyclerMusic.itemAnimator = LandingAnimator().apply { addDuration = 400 }
+        observeLiveData()
+    }
 
+    private fun observeLiveData() {
         viewModel.fetchFetchMusicByAlbum(music.collectionId).observe(this) {
             adapter.items = it
+        }
+
+        viewModel.errorLiveData.observe(this) {
+            showError(it)
+        }
+    }
+
+    private fun showError(error: Throwable) {
+        when (error) {
+            is GenericException -> {
+                Toast.makeText(this, error.title, Toast.LENGTH_LONG).show()
+            }
+            is EmptyError -> {
+                adapter.items = arrayListOf()
+                Toast.makeText(this, error.title, Toast.LENGTH_LONG).show()
+            }
+            is NetworkException -> {
+                Toast.makeText(this, error.title, Toast.LENGTH_LONG).show()
+            }
         }
     }
 

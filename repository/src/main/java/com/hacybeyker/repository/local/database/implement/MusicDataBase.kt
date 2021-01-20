@@ -11,7 +11,7 @@ class MusicDataBase : IMusicRepositoryDataBase, KoinComponent {
 
     private val musicDao: MusicDao by inject()
 
-    override suspend fun saveMusic(music: Music) {
+    override suspend fun saveMusic(term: String, music: Music) {
         musicDao.insert(
             MusicModel(
                 trackId = music.trackId,
@@ -23,12 +23,13 @@ class MusicDataBase : IMusicRepositoryDataBase, KoinComponent {
                 releaseDate = music.releaseDate,
                 primaryGenreName = music.primaryGenreName,
                 trackTimeMillis = music.trackTimeMillis,
-                collectionId = music.collectionId
+                collectionId = music.collectionId,
+                term = term
             )
         )
     }
 
-    override suspend fun fetchMusic(): List<Music> {
-        return MusicModel.toMusicList(musicDao.fetchMusic())
+    override suspend fun fetchMusic(term: String): List<Music> {
+        return MusicModel.toMusicList(musicDao.fetchMusic(term = term))
     }
 }

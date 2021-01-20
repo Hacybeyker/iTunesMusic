@@ -11,6 +11,6 @@ interface MusicDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(musicModel: MusicModel)
 
-    @Query("SELECT * FROM music")
-    suspend fun fetchMusic(): List<MusicModel>
+    @Query("SELECT * FROM music WHERE artistName LIKE :term OR term LIKE :term")
+    suspend fun fetchMusic(term: String): List<MusicModel>
 }
