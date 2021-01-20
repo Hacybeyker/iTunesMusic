@@ -7,7 +7,7 @@ This is the [MAD Score] link for the project.
 
 
 
-[iTunes API]: <http://daringfireball.net>
+[iTunes API]: <https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/>
 [MAD Score]: <https://madscorecard.withgoogle.com/scorecards/1050428752/>
 
 
