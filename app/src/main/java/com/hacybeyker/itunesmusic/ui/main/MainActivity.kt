@@ -10,7 +10,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.observe
 import com.hacybeyker.entities.Music
 import com.hacybeyker.itunesmusic.R
 import com.hacybeyker.itunesmusic.databinding.ActivityMainBinding
@@ -18,6 +17,7 @@ import com.hacybeyker.itunesmusic.ui.detail.DetailMusicActivity
 import com.hacybeyker.itunesmusic.ui.main.adapter.MusicAdapter
 import com.hacybeyker.itunesmusic.ui.main.viewmodel.MusicViewModel
 import com.hacybeyker.itunesmusic.ui.main.viewmodel.SuggestionViewModel
+import com.hacybeyker.itunesmusic.utils.Person
 import com.hacybeyker.itunesmusic.utils.hideKeyboard
 import com.hacybeyker.repository.network.exception.EmptyError
 import com.hacybeyker.repository.network.exception.GenericException
@@ -90,7 +90,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.OnItemSelectedListener,
     }
 
     override fun onItemSelected(item: Music, view: View?) {
-        DetailMusicActivity.newInstance(this, item, view)
+        DetailMusicActivity.newInstance(this, item, Person("Osorio", 25, false), view)
     }
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {

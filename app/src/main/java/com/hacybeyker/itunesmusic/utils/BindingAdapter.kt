@@ -7,8 +7,10 @@ import androidx.databinding.BindingAdapter
 
 
 @BindingAdapter("srcImage")
-fun srcImage(imageView: ImageView, url: String) {
-    imageView.load(url)
+fun srcImage(imageView: ImageView, url: String?) {
+    url.let {
+        imageView.load(it ?: "")
+    }
 }
 
 @BindingAdapter("autoCompleteAdapter")

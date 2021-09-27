@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -98,6 +99,8 @@ dependencies {
     implementation 'jp.wasabeef:recyclerview-animators:3.0.0'
     //Paging3
     implementation "androidx.paging:paging-runtime-ktx:3.0.0-alpha12"
+    //Serialization
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.9.1"
     //Library
     implementation project(path: ':entities')
     implementation project(path: ':repository')

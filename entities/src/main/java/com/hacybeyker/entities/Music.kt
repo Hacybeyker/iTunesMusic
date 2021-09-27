@@ -3,6 +3,7 @@ package com.hacybeyker.entities
 import java.io.Serializable
 import java.util.*
 
+/*@Parcelize*/
 data class Music(
     val trackId: Int,
     val artworkUrl100: String,

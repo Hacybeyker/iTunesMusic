@@ -7,6 +7,7 @@ import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.util.Pair
 import android.view.View
 import android.widget.Toast
@@ -14,12 +15,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import com.hacybeyker.entities.Music
 import com.hacybeyker.itunesmusic.R
 import com.hacybeyker.itunesmusic.databinding.ActivityDetailMusicBinding
 import com.hacybeyker.itunesmusic.ui.detail.adapter.MusicDetailAdapter
 import com.hacybeyker.itunesmusic.ui.detail.viewmodel.MusicDetailViewModel
+import com.hacybeyker.itunesmusic.ui.player.PlayerFragment
+import com.hacybeyker.itunesmusic.utils.Person
 import com.hacybeyker.repository.network.exception.EmptyError
 import com.hacybeyker.repository.network.exception.GenericException
 import com.hacybeyker.repository.network.exception.NetworkException
@@ -32,6 +34,8 @@ class DetailMusicActivity : AppCompatActivity(), MusicDetailAdapter.OnItemSelect
         ViewModelProvider(this@DetailMusicActivity).get(MusicDetailViewModel::class.java)
     }
     private val adapter: MusicDetailAdapter by lazy { MusicDetailAdapter(this) }
+    private lateinit var playerFragment: PlayerFragment
+
     private lateinit var music: Music
     private lateinit var mediaPlayer: MediaPlayer
 
@@ -39,10 +43,15 @@ class DetailMusicActivity : AppCompatActivity(), MusicDetailAdapter.OnItemSelect
         fun newInstance(
             activity: Activity,
             music: Music,
+            person: Person,
             imageView: View?
         ) {
             val intent = Intent(activity, DetailMusicActivity::class.java)
             intent.putExtra(Music::class.java.name, music)
+            val bundle = Bundle()
+            bundle.putString("String", "Value")
+            intent.putExtra("bundle", bundle)
+            intent.putExtra(Person::class.java.name, person)
             if (imageView != null) {
                 ViewCompat.setTransitionName(imageView, music.trackId.toString())
                 val p1 =
@@ -62,6 +71,8 @@ class DetailMusicActivity : AppCompatActivity(), MusicDetailAdapter.OnItemSelect
         binding.music = music
         binding.adapter = adapter
         binding.executePendingBindings()
+
+
 
         binding.detailMusicImageArt.transitionName = music.trackId.toString()
         binding.detailRecyclerMusic.itemAnimator = LandingAnimator().apply { addDuration = 400 }
@@ -96,10 +107,20 @@ class DetailMusicActivity : AppCompatActivity(), MusicDetailAdapter.OnItemSelect
     private fun getIntentData() {
         intent?.let { it ->
             it.getSerializableExtra(Music::class.java.name)?.let { music = it as Music }
+            Log.d("TAG", "Here - getIntentData: ${it.getBundleExtra("bundle")}")
+            val algo = it.getBundleExtra("bundle")
+            Log.d("TAG", "Here - getIntentData: ${algo?.getString("String")}")
+            val person = intent.getParcelableExtra<Person>(Person::class.java.name)
+            Log.d("TAG", "Here - getIntentData: $person")
         }
     }
 
     override fun onItemSelected(item: Music) {
+        playerFragment = PlayerFragment.newInstance(item)
+        supportFragmentManager.beginTransaction()
+            .add(R.id.detailFragmentContainer, playerFragment, PlayerFragment::class.java.name)
+            .commit()
+        playerFragment.playMusic(item)
         val uri = Uri.parse(item.previewUrl)
         if (!::mediaPlayer.isInitialized) {
             mediaPlayer = MediaPlayer()
